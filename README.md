@@ -1,5 +1,7 @@
 # Valheim macOS
 
+[![Valheim version](https://badgen.net/badge/Valheim%20version/0.215.2/green)](https://valheim.com/news/patch-0-215-2)
+
 ## Background
 
 A Steam leak in 2021 seemed to indicate that Iron Gate, developers of Valheim, were exploring macOS
@@ -7,7 +9,9 @@ support.
 
 Unfortunately, that seems to be in limbo currently, as pointed out by moderator [Munin]:
 
-> A little update: They [Iron Gate] still want do the Mac version. The question is just when. Currently, they focus on developing the Windows & Linux versions of the game (surprise, surprise - I know), and simply don't have time to work on supporting another OS.
+> A little update: They [Iron Gate] still want do the Mac version. The question is just when. Currently, they focus
+> on developing the Windows & Linux versions of the game (surprise, surprise - I know), and simply don't have time
+> to work on supporting another OS.
 >
 > There's already a Valheim Mac Depot (last updated in April 2021), and it runs OK ("Okay") with Unity.
 
@@ -52,7 +56,8 @@ this custom build as problematic (or the build itself may behave incorrectly) an
 etc. in jeopardy.
 
 > __Warning__
-> **Usage of this build script and the resulting macOS build is [at your own risk]. Official support channels will not be able to help you with any issues.**
+> **Usage of this build script and the resulting macOS build is [at your own risk]. Official support channels
+> will not be able to help you with any issues.**
 
 ## Building
 
@@ -63,12 +68,18 @@ etc. in jeopardy.
 - An internet connection to download the game data and dependencies.
 - [Dotnet CLI]
   - Easiest to install via [Homebrew]: `brew install dotnet@7`.
+  - Alternatively, install using the [official Dotnet installer].
 
-### Steps
+### Initial build
 
 These steps take between 15 to 30 minutes to complete, depending on network speed and computing power.
 
 1. Clone this repository: `git clone https://github.com/timkurvers/valheim-macos`.
+
+   > __Note__
+   > Downloading the repository as a zip-file may cause [the build to be damaged] due to macOS quarantining
+   > files that originate from the internet.
+
 2. Navigate to the cloned repository in your terminal of choice.
 3. Run `./build.sh` and follow the instructions.
 
@@ -85,15 +96,39 @@ These steps take between 15 to 30 minutes to complete, depending on network spee
 1. Start Steam and log into an account that owns Valheim.
 2. Launch `Valheim.app` from the `build` folder.
 
+## Patching
+
+Future Valheim patches will require updates to the build script and you may not be able to play with an outdated
+build. Look at the top of this README to see what version of Valheim is currently supported.
+
 > __Note__
-> Future Valheim updates will most likely require updates to the build script and you may not be able to
-> play with an outdated build.
+> It may take a day or two before the script is updated to support a recently released patch.
+
+To generate a new build:
+
+1. Fetch the latest build script using `git pull`.
+2. Optional: make a backup of the previous build by copying `Valheim.app` elsewhere.
+3. Run `./build.sh` once more.
 
 ## Known issues
 
-- Steam overlay is non-functional. For an alternative FPS counter, press `F2` in-game.
+- Steam overlay is non-functional when launched directly from `Valheim.app`.
+  - Press `F2` in-game to show Valheim's built-in FPS and network details panel.
+  - Alternatively: add `Valheim.app` as a non-Steam game and launch via Steam.
+
 - Generating and entering worlds may seem to infinitely hang before a loading screen is shown. Be patient.
-- Steam Cloud integration may misbehave: characters or worlds not syncing across devices.
+
+- [Steam Cloud integration may misbehave]: characters or worlds not syncing across devices.
+
+  This could be since Valheim changed cloud save mechanics in version 0.209.8 in the summer of 2022.
+  Log into Valheim on a computer which is properly synced and mark all characters and worlds as "Cloud Save"
+  if you have not played since prior to version 0.209.8.
+
+  Since the macOS client lacks the custom paths used by the cloud save logics of Valheim prior to 0.209.8 the
+  cloud sync will fail silently. Technically, Valheim seems to have used Windows-specific paths and used
+  conversion logic on Linux without any support for macOS paths, which has the effect that the macOS client
+  cannot resolve the paths and directory structure used by the old saves (as they are saved with the old structure
+  in Steam cloud).
 
   If you suspect sync trouble, check `~/Library/Application Support/Steam/logs/cloud_log.txt` first.
 
@@ -103,6 +138,8 @@ These steps take between 15 to 30 minutes to complete, depending on network spee
   - Remote data: `~/Library/Application Support/Steam/userdata/<steam id>/892970/remote/`
 
   The data you have stored in Steam Cloud for Valheim can be [browsed online] (requires login).
+
+- [Game pads / controllers may not work].
 
 ## FAQ
 
@@ -136,11 +173,15 @@ Feedback, issues, or pull requests with improvements are more than welcome! 🙏
 
 [DepotDownloader]: https://github.com/SteamRE/DepotDownloader
 [Dotnet CLI]: https://learn.microsoft.com/en-us/dotnet/core/tools/
+[Game pads / controllers may not work]: https://github.com/timkurvers/valheim-macos/issues/11
 [Homebrew]: https://brew.sh/
 [Munin]: https://steamcommunity.com/app/892970/discussions/2/3192485276070223820/?ctp=68#c3446961485766994098
+[Steam Cloud integration may misbehave]: https://github.com/timkurvers/valheim-macos/issues/10
 [Valheim]: https://store.steampowered.com/app/892970/Valheim/
 [at your own risk]: LICENSE.md
 [browsed online]: https://store.steampowered.com/account/remotestorageapp/?appid=892970
+[official Dotnet installer]: https://dotnet.microsoft.com/en-us/download
 [official Valheim Twitter account]: https://twitter.com/Valheimgame
 [porting Unity games to different platforms]: https://www.pcgamingwiki.com/wiki/Engine:Unity/Porting
 [r/macgaming]: https://www.reddit.com/r/macgaming/comments/1217lko/valheim_macos_build_script/
+[the build to be damaged]: https://github.com/timkurvers/valheim-macos/issues/16#issuecomment-1517025125

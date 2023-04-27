@@ -6,8 +6,8 @@ set -e
 # Valheim configuration
 appid=892970
 depotid=892971
-buildid=10874822
-version="0.214.305"
+buildid=10946502
+version="0.215.2"
 
 # Unity configuration
 unityversion="2020.3.45f1"
@@ -113,11 +113,11 @@ prefix="build/Valheim.app/Contents"
 unityprefix="vendor/Unity-$unityversion/Unity.pkg.tmp/Payload/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport"
 
 cat skeleton/Valheim.app/Contents/Info.plist \
-	| sed "s|\$appid|$appid|g" \
-	| sed "s|\$unityhash|$unityhash|g" \
-	| sed "s|\$unityversion|$unityversion|g" \
-	| sed "s|\$version|$version|g" \
-	> $prefix/Info.plist
+    | sed "s|\$appid|$appid|g" \
+    | sed "s|\$unityhash|$unityhash|g" \
+    | sed "s|\$unityversion|$unityversion|g" \
+    | sed "s|\$version|$version|g" \
+    > $prefix/Info.plist
 
 cp $unityprefix/Variations/$variant/UnityPlayer.app/Contents/Frameworks/* $prefix/Frameworks/
 cp $unityprefix/Variations/$variant/UnityPlayer.app/Contents/MacOS/UnityPlayer $prefix/MacOS/Valheim
